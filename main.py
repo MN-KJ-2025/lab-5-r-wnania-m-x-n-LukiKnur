@@ -1,4 +1,4 @@
-# =================================  TESTY  ===================================
+    # =================================  TESTY  ===================================
 # Testy do tego pliku zostały podzielone na dwie kategorie:
 #
 #  1. `..._invalid_input`:
@@ -10,7 +10,23 @@
 import numpy as np
 
 
+    
+
 def spare_matrix_Abt(m: int, n: int) -> tuple[np.ndarray, np.ndarray] | None:
+
+    if not isinstance(m,int) or not isinstance(n,int): 
+        return None
+
+    if m<=0 or n<=0:
+        return None
+    t=np.linspace(0,1,m)
+
+    b=np.cos(4*t)
+
+    A=np.vander(t,n,increasing=True)
+
+    return A, b
+    
     """Funkcja tworząca zestaw składający się z macierzy A (m,n) i
     wektora b (m,) na podstawie pomocniczego wektora t (m,).
 
@@ -24,12 +40,35 @@ def spare_matrix_Abt(m: int, n: int) -> tuple[np.ndarray, np.ndarray] | None:
             - Wektor b (m,).
         Jeżeli dane wejściowe są niepoprawne funkcja zwraca `None`.
     """
-    pass
+
+
+    
 
 
 def square_from_rectan(
     A: np.ndarray, b: np.ndarray
 ) -> tuple[np.ndarray, np.ndarray] | None:
+    
+    if not isinstance(A,np.ndarray) or not isinstance(b,np.ndarray):
+        return None
+    
+    if A.shape[0]!=b.shape[0]:
+        return None
+
+    if A.ndim!=2 or b.ndim!=1:
+        return None
+    
+    if A.size==0 or b.size==0:
+        return None
+
+    A_new=(np.transpose(A))@A
+
+    b_new=(np.transpose(A))@b
+
+    return A_new, b_new
+    
+
+
     """Funkcja przekształcająca układ równań z prostokątną macierzą współczynników
     na kwadratowy układ równań.
     A^T * A * x = A^T * b  ->  A_new * x = b_new
@@ -44,10 +83,34 @@ def square_from_rectan(
             - Wektor b_new (n,).
         Jeżeli dane wejściowe są niepoprawne funkcja zwraca `None`.
     """
-    pass
-
 
 def residual_norm(A: np.ndarray, x: np.ndarray, b: np.ndarray) -> float | None:
+    
+
+    if not (isinstance(A, np.ndarray) and isinstance(x, np.ndarray) and isinstance(b, np.ndarray)):
+        return None
+
+    if (A.shape)[1]!=(x.shape)[0]:
+        return None
+    
+    if A.size==0 or x.size==0 or b.size==0:
+        return None
+    
+    if A.ndim!=2 or x.ndim!=1 or b.ndim!=1:
+        return None
+    
+    if A.shape[0]!=b.shape[0]:
+        return None
+
+    Ax=A@x
+
+    r=b-Ax
+
+    residual_norm=np.linalg.norm(r)
+
+    return float(residual_norm)
+
+    
     """Funkcja obliczająca normę residuum dla równania postaci:
     Ax = b
 
@@ -60,4 +123,3 @@ def residual_norm(A: np.ndarray, x: np.ndarray, b: np.ndarray) -> float | None:
         (float): Wartość normy residuum dla podanych parametrów.
         Jeżeli dane wejściowe są niepoprawne funkcja zwraca `None`.
     """
-    pass
